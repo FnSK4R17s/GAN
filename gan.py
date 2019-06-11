@@ -1,10 +1,10 @@
 #MNIST generator
 import numpy as np
-from keras.datasets import mnist
-from keras.optimizers import Adam
-from keras.models import Sequential, Model
-from keras.layers import Flatten, Dense, Input, BatchNormalization, Reshape
-from keras.layers.advanced_activations import LeakyReLU
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Flatten, Dense, Input, BatchNormalization, Reshape
+from tensorflow.keras.layers import LeakyReLU
 import matplotlib.pyplot as plt
 
 class GAN():
@@ -82,7 +82,7 @@ class GAN():
         valid = np.ones((batch_size,1), dtype=np.float32)
         fake = np.zeros((batch_size,1), dtype=np.float32)
 
-        for epoch in range(epochs):
+        for epoch in tqdm(range(epochs)):
             #------------
             #Train D
             #------------
@@ -115,28 +115,29 @@ class GAN():
             g_loss = self.combined.train_on_batch(noise,valid)
 
             #plot the progress
-            print("%d [D loss: %f, acc.: %.2f%%] [G loss: %f]"%(epoch, d_loss[0], 100*d_loss[1], g_loss))
+            if not (epoch+1)%sampling_interval:
+                print("%d [D loss: %f, acc.: %.2f%%] [G loss: %f]"%(epoch, d_loss[0], 100*d_loss[1], g_loss))
 
             #save generated images from time to time
-            if epoch%sampling_interval == 0:
+            if (epoch+1)%sampling_interval == 0:
                 self.sample_images(epoch)
                 self.saver()
         self.saver()
-    def savr(self):
+    def saver(self):
         #saving generator to disk
         G_json = self.generator.to_json()
         with open("saved_models/G.json", "w") as json_file:
             json_file.write(G_json)
         # serialize weights to HDF5
         self.generator.save_weights("saved_models/G.h5")
-        print("Saved G to disk")
+        # print("Saved G to disk")
         #saving discriminator to disk
         D_json = self.discriminator.to_json()
         with open("saved_models/D.json", "w") as json_file:
             json_file.write(D_json)
         # serialize weights to HDF5
         self.discriminator.save_weights("saved_models/D.h5")
-        print("Saved D to disk")
+        # print("Saved D to disk")
 
 
 
@@ -155,14 +156,14 @@ class GAN():
                 axs[i,j].imshow(gen_imgs[cnt,:,:,0], cmap='Greys')
                 axs[i,j].axis('off')
                 cnt+=1
-        fig.savefig("images/%d.png"%epoch)
+        fig.savefig("images/{0:05d}.png".format(epoch))
         plt.close()
 
 
 
 def main():
     gan = GAN()
-    gan.train(epochs=30000, batch_size=32, sampling_interval=200)
+    gan.train(epochs=30000, batch_size=128, sampling_interval=200)
 
 if __name__ == '__main__':
     main()
