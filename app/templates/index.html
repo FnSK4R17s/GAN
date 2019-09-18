@@ -1,0 +1,122 @@
+<html>
+
+<head>
+    <title>GAN demo!</title>
+    <!-- <script src="static/main.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}">
+</head>
+
+<body>
+    <div width="100%" style="align-content: center">
+        <div class="button">
+            {% if message == 'Predict' %}
+            <a href="/predict"><input type="button" onClick="history.go(0)" value={{message}}></a>
+            {% elif message == 'Retry?' %}
+            <a href="/"><input type="button" onClick="history.go(0)" value={{message}}></a>
+            {% endif %}
+            <!-- <h1>{{message}}</h1> -->
+        </div>
+    </div>
+
+
+    <table width="100%">
+        <td style="align-content:left; padding:1pc"><img src="{{url_for('static', filename='inputnoise.jpg')}}"
+                alt="Snow" style="width:30pc"></td>
+        <td style="align-content:center; padding:1pc"><img src="{{url_for('static', filename='GANillustration.jpg')}}"
+                alt="Forest" style="width:30pc"></td>
+        <td style="align-content:right; padding:1pc">
+            {% if file %}
+            <img src="{{url_for('static', filename=file)}}" alt="Result" style="width:30pc">
+            {% else %}
+            <img src="{{url_for('static', filename='noise.png')}}" alt="Result" style="width:30pc">
+            {% endif %}
+        </td>
+
+    </table>
+
+    <div id="TEXT">
+        <h1 id="gan">GAN</h1>
+        <p>keras implementation of Generative Adversarial Network for MNIST Digit Generation</p>
+        <!-- # [Click on this link to Try Now !](https://pong-tfjs.herokuapp.com/ "Pong AI webapp using tfjs") -->
+
+        <div class="figure">
+            <img src="{{url_for('static', filename='RESULTS.gif')}}?raw=true" title="MNIST GAN Animation" />
+            <p class="caption">MNIST GAN Animation</p>
+        </div>
+        <h1 id="what-are-gans"><a href="https://en.wikipedia.org/wiki/Generative_adversarial_network">What are GANs</a>
+        </h1>
+        <p>A generative adversarial network (<strong>GAN</strong>) is a class of machine learning systems invented by
+            Ian
+            Goodfellow in 2014. Two neural networks contest with each other in a game (in the sense of game theory,
+            often
+            but not always in the form of a zero-sum game). Given a training set, this technique learns to generate new
+            data
+            with the same statistics as the training set.</p>
+        <p><strong>For example</strong> <br /> A GAN trained on photographs can generate new photographs that look at
+            least
+            superficially authentic to human observers, having many realistic characteristics.</p>
+        <p><strong>GAN Architecture</strong> <br /></p>
+        <div class="figure">
+            <img src="{{url_for('static', filename='GAN_architecture.png')}}?raw=true" title="GAN_architecture" />
+            <p class="caption">GAN_architecture</p>
+        </div>
+        <p>One neural network, called the generator, generates new data instances, while the other, the discriminator,
+            evaluates them for authenticity; i.e. the discriminator decides whether each instance of data that it
+            reviews
+            belongs to the actual training dataset or not.</p>
+        <p>Let’s say we’re trying to do something more banal than mimic the Mona Lisa. We’re going to generate
+            hand-written
+            numerals like those found in the MNIST dataset, which is taken from the real world. The goal of the
+            discriminator, when shown an instance from the true MNIST dataset, is to recognize those that are authentic.
+        </p>
+        <p>Meanwhile, the generator is creating new, synthetic images that it passes to the discriminator. It does so in
+            the
+            hopes that they, too, will be deemed authentic, even though they are fake. The goal of the generator is to
+            generate passable hand-written digits: to lie without being caught. The goal of the discriminator is to
+            identify
+            images coming from the generator as fake.</p>
+        <p><strong>Read the original Paper</strong> <br /> https://arxiv.org/abs/1406.2661 [by -Ian Goodfellow] [<a
+                href="https://github.com/goodfeli/adversarial">Code</a>]</p>
+        <p><strong>Our Implementation</strong> <br /> We have implemented the above paper using Keras deep learning
+            library
+        </p>
+        <div class="figure">
+            <img src="{{url_for('static', filename='keras_banner.png')}}?raw=true" title="keras_banner" />
+            <p class="caption">keras_banner</p>
+        </div>
+        <h2 id="how-it-works">How it works</h2>
+        <ol style="list-style-type: decimal">
+            <li>The generator takes in random numbers and returns an image.</li>
+            <li>This generated image is fed into the discriminator alongside a stream of images taken from the actual,
+                ground-truth dataset.</li>
+            <li>The discriminator takes in both real and fake images and returns probabilities, a number between 0 and
+                1,
+                with 1 representing a prediction of authenticity and 0 representing fake.</li>
+        </ol>
+        <p>So you have a double feedback loop:</p>
+        <ol style="list-style-type: decimal">
+            <li>The discriminator is in a feedback loop with the ground truth of the images, which we know.</li>
+            <li>The generator is in a feedback loop with the discriminator</li>
+        </ol>
+
+
+        <h2 id="code">Code</h2>
+        <p>Check out our code at <a href="https://github.com/FnSK4R17s/GAN/blob/master/gan.py">gan.py</a>.</p>
+        <h2 id="gallery">Gallery</h2>
+        <p>Some popular applications of GANs.</p>
+        <ol style="list-style-type: decimal">
+            <li>Colouring Anime</li>
+            <img src="{{url_for('static', filename='animegan.png')}}?raw=true" title="Colouring Anime Using GANs" />
+            <li>Style Transfer</li>
+            <img src="{{url_for('static', filename='gan_vogh_example2.png')}}?raw=true" title="Style Transfer" />
+            <li>Superresolution using GANs</li>
+            <img src="{{url_for('static', filename='superserolution.png')}}?raw=true"
+                title="Superresolution using GANs" />
+        </ol>
+
+    </div>
+
+
+</body>
+
+</html>
