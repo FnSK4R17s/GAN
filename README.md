@@ -1,4 +1,7 @@
-# GAN
+# GAN (https://mnist-generator.herokuapp.com/)
+
+## Before we begin, check out our [Webapp !](https://mnist-generator.herokuapp.com/)
+
 keras implementation of Generative Adversarial Network for MNIST Digit Generation
 
 <!-- # [Click on this link to Try Now !](https://pong-tfjs.herokuapp.com/ "Pong AI webapp using tfjs") -->
@@ -49,7 +52,10 @@ So you have a double feedback loop:
 
 
 Check out our code at
-[gan.py](https://github.com/FnSK4R17s/GAN/blob/master/gan.py).
+[gan.py](https://github.com/FnSK4R17s/GAN/blob/master/gan.py) .
+
+check out our webapp at
+ [Webapp !](https://mnist-generator.herokuapp.com/) .
 
 ## Gallery
 Some popular applications of GANs.<br>
