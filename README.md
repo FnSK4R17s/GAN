@@ -59,7 +59,7 @@ check out our webapp at
 
 ## Gallery
 Some popular applications of GANs.<br>
-1. Colouring Anime 
+1. Colouring Manga 
 ![Colouring Anime Using GANs](animegan.png?raw=true "Colouring Anime Using GANs")
 1. Style Transfer
 ![Style Transfer](gan_vogh_example2.png?raw=true "Style Transfer")
